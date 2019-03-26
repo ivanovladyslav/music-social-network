@@ -1,0 +1,13 @@
+include ../layout/head
+html 
+  body
+    block content
+      form(method='post', action='/addtracks_submit/')
+        input(name='releaseid' value="#{releaseid}" style="display:none;")
+        input(type='text', name='title' placeholder='title')
+        
+        div.contributors
+          a.btn.btn-secondary.btn-sm(id="addContributorButton" onclick="addContributor()") Add contributor
+          
+        input(type='submit', value='yes')
+        

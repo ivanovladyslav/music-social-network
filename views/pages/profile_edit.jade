@@ -1,0 +1,12 @@
+include ../layout/layout.jade 
+
+block content	
+  form(method='post', action='/user/profile_edit_submit')
+    label(for='name') #{profile_nickname}
+    input(type='name', name='name' value="#{profile_nickname}")
+    input(type='text', name='description' value="#{profile_description}")
+    input(type='submit', value='yes')
+    
+  form(method='post', action='/user/profile_avatar_submit' enctype="multipart/form-data")
+    input(type='file' name='avatar' value="{profile_avatar}")
+    input(type='submit', value='upload avatar')

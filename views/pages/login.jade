@@ -1,0 +1,15 @@
+include ../layout/head.jade
+	body
+		block content
+		div.outer
+			div.middle
+				div.form-login
+					h1 Login
+					form(method='post', action='/user/login_submit/')
+						label(for='email') Your email:
+						input(type='email', name='email')
+						label(for='password') Password:
+						input(type='password', name='password')
+						input(type='submit', value='Login')
+					a(href="/user/signup/") Sign up
+			

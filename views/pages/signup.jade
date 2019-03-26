@@ -1,0 +1,18 @@
+include ../layout/head.jade 
+		block content
+		
+		div.outer
+			div.middle
+				div.form-signup
+					h1 Signup
+					form(method='post', action='/user/signup_submit')
+						label(for='email') Email:
+						input(type='email', name='email')
+						label(for='username') Usertag: 
+						input(type='text', name='username')
+						label(for='password') Password:
+						input(type='password', name='password')
+						label(for='passwordConf') Confirm password:
+						input(type='password', name='passwordConf')
+						input(type='submit', value='yes')
+				

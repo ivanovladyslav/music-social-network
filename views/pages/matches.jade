@@ -1,0 +1,9 @@
+include ../layout/layout.jade 
+
+div.container
+  ul
+    each user in results
+      li
+        p= user.username
+        p= user.description
+        img(src="../../upload/#{user.avatar}" width="100px" height="100px")

@@ -1,0 +1,8 @@
+include ../layout/layout.jade 
+
+div.container
+  each message in messages
+    div.item
+     -if(message.messagetype == "FriendInvite") {
+       a(href="/user/acceptfriend/#{message.from}") AcceptInvite 
+     -}

@@ -1,0 +1,30 @@
+include ../layout/head
+html 
+  body
+    block content
+      div.image
+        img(src="../../upload/#{post.cover}")
+      div.content
+        a.header= post.title
+        div.description
+          a(href='/user/profile/#{post.authorname}')= post.authorname
+          each contributor in post.contributors 
+            a(href='/user/profile/#{contributor.id}')= contributor.id
+            p= contributor.role
+        div.extra
+          each tag in post.tags
+            div.ui.label= tag
+        div.tracks 
+          each track in post.tracks 
+            div
+              p= track.title
+               each contributor in track.contributors
+                p= contributor.id
+                p= contributor.role
+            
+        
+        -if(username) {
+        a(href='/delete/#{post._id}') Delete
+        a(href='/addtracks/#{post._id}') Add Tracks
+        -}
+        

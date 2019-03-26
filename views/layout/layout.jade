@@ -1,0 +1,32 @@
+include ./head.jade 
+	body
+		block content
+			div.ui.container
+				nav.navbar.navbar-expand-lg.bg-warning
+					div.toggle-button.nav-item				
+					ul.navbar-nav.mr-auto
+						- if (username) {
+						li.nav-item
+							a.nav-link.text-white(href='/user/notifications') Notifications
+						- } else {
+						li.nav-item
+							a.nav-link.text-white(href='/user/login') Login
+						li.nav-item
+							a.nav-link.text-white(href='/user/signup') Signup
+						- }
+					form.form-inline.my-2.my-lg-0.float-right(method='get', action='/user/search')
+						input.form-control.mr-sm-2(type='name', name='username' placeholder="Find users...")
+						button.btn.btn-outline-success.my-2.my-sm-0(type='submit', value='Search') Search
+			div.menu-wrap
+				div.menu-sidebar
+					ul.menu
+						li
+							a.text-white(href="/") Home
+						-if (username) {
+							a.item.text-white(href="/user/profile/#{username}") My profile
+							a.item.text-white(href='/create') Add project
+							a.item.text-white(href='/user/profile_edit') Edit profile
+							a.text-white(href='/user/logout') Logout
+						-}
+			div.close-mask
+		

@@ -1,0 +1,19 @@
+include ../layout/layout.jade 
+
+block content
+	div.ui.container
+		-var data = JSON.parse(JSON.stringify(posts))
+		div.ui.divided.items
+			each post in data
+				div.item
+					div.image
+						img(src="../../upload/#{post.cover}" width="100px" height="100px")
+					div.content
+						a.header= post.text
+						div.meta
+							p= post.number
+						div.description
+							a(href='/user/profile/#{post.authorname}')= post.authorname
+						div.extra
+							div.ui.label Music
+							div.ui.label Electronic

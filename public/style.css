@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+h1 {
+  margin-bottom: 10px;
+}
+.menu-wrap {
+    background-color: #ffac00;
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 280px;
+    margin-left: -280px;
+    font-size: 1em;
+    font-weight: 700;
+    overflow: auto;
+    transition: .25s;
+    z-index: 10;
+}
+.menu-show {
+    margin-left: 0;
+    box-shadow: 4px 2px 15px 1px #B9ADAD;
+}
+.close-mask {
+  position: fixed;
+    height: 100%;
+    width: 100%;
+}
+.toggle-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  background-color: grey;
+}
+.ui.pointing.menu {
+  background-color: #ffac00;
+}
+.ui.menu .item{
+  color: white;
+}
+.contributors {
+  width: 300px;
+}
+#addContributorButton {
+  color: white;
+}

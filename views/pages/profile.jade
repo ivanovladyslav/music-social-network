@@ -1,0 +1,32 @@
+include ../layout/layout.jade
+
+div.container
+	div.profile-head
+		div.profile-description
+			p #{user.description}
+		div.profile-middle
+			img(src="../../upload/#{user.avatar}" width="100px" height="100px")
+			p #{user.username}
+		div.profile-contacts
+			p contacts
+			-if(username && username != user.username && !isUserInFriends) {
+			a(href='/user/invitetofriend/#{user.username}') Send friend request	
+			-}
+	div.profile-wall
+		ul
+			-var data = JSON.parse(JSON.stringify(posts))
+			div.ui.divided.items
+				each post in data
+					div.item
+						div.image
+							img(src="../../upload/#{post.cover}")
+						div.content
+							a(href='/post/#{post._id}') Title
+							div.description
+								a(href='/user/profile/#{post.authorname}')= post.authorname
+							div.extra
+								each tag in post.tags
+									div.ui.label= tag
+							-if(username) {
+							a(href='/delete/#{post._id}') Delete
+							-}
