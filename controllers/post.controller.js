@@ -2,24 +2,35 @@ const Post = require('../models/post.model');
 const User = require('../models/user.model');
 var async = require("async");
 const path = require('path');
+const fs = require('fs');
 
 exports.create_submit = async function(req, res) {
 	console.log(req.body);
 	var contributorsArray = [];
 	if(req.body.contributors) {
-		let contributorsFromRequest = req.body.contributors;
-		let rolesFromRequest = req.body.roles;
+		let contributorsFromRequest = []
+		let rolesFromRequest = [];
+		if(typeof req.body.contributors == 'string') {
+			contributorsFromRequest = [req.body.contributors];
+			rolesFromRequest = [req.body.roles];
+		} else {
+			contributorsFromRequest = req.body.contributors;
+			rolesFromRequest = req.body.roles;
+		}
 		for (var i = 0; i < contributorsFromRequest.length; i++) {
-			var idOfContributor = await User.findOne({username:contributorsFromRequest[i]});
+			var idOfContributor;
+			idOfContributor = await User.findOne({username:contributorsFromRequest[i]});
+			console.log(idOfContributor);
 			contributorsArray.push({
 				id: idOfContributor._id,
 				role: rolesFromRequest[i]
 			});
 		}
 	}
+	console.log(contributorsArray);
 
 	let post = new Post({
-		text: req.body.title,
+		title: req.body.title,
 		tags: req.body.tags.split(' '),
 		authorid: req.session.user_id,
 		authorname: req.session.username,
@@ -47,37 +58,65 @@ exports.post = async function(req, res) {
 		}
 	}
 	for (var i = 0; i < data.tracks.length; i++) {
-		for (var j = 0; j < data.contributors.length; j++) {
-			let user = await User.findOne({ _id: data.tracks[i].contributors[j].id});
-			data.tracks[i].contributors[j] = {
-				_id: data.tracks[i].contributors[j]._id,
-				id: user.username,
-				role: data.tracks[i].contributors[j].role
+		if (data.tracks[i].contributors) {
+			for (var j = 0; j < data.tracks[i].contributors.length; j++) {
+				let user = await User.findOne({ _id: data.tracks[i].contributors[j].id});
+				data.tracks[i].contributors[j] = {
+					_id: data.tracks[i].contributors[j]._id,
+					id: user.username,
+					role: data.tracks[i].contributors[j].role
+				}
 			}
 		}
 	}
-	console.log(contributorsNames);
-	// for (var i = 0; i < data.contributors.length; i++)
-	// data.contributors = contributorsNames.slice();
-	console.log(data.contributors);
-	console.log(data);
 	res.render('post', { post: data, username: req.session.username });
+}
+
+exports.track = async function(req, res) {
+	file='upload/'+req.params.id;
+	fs.exists(file, (exists) => {
+        if (exists) {
+            const rstream = fs.createReadStream(file);
+            rstream.pipe(res);
+        } else {
+            res.send('Error - 404');
+            res.end();
+        }
+  });
 }
 
 exports.addtracks_submit = async function(req, res) {
 	console.log(req.body);
+	console.log(req.file.filename);
+
 	var contributorsArray = [];
+	if(typeof req.body.contributors == 'string') {
+		contributorsFromRequest = [req.body.contributors];
+		rolesFromRequest = [req.body.roles];
+	} else {
+		contributorsFromRequest = req.body.contributors;
+		rolesFromRequest = req.body.roles;
+	}
 	if(req.body.contributors) {
-		for (var i = 0; i < req.body.contributors.length; i++) {
-			var idOfContributor = await User.findOne({username:req.body.contributors[i]});
+		for (var i = 0; i < contributorsFromRequest.length; i++) {
+			var idOfContributor = await User.findOne({username:contributorsFromRequest[i]});
 			contributorsArray.push({
 				id: idOfContributor._id,
-				role: req.body.roles[i]
+				role: rolesFromRequest[i]
 			});
 		}
 	}
 
-	Post.findByIdAndUpdate(req.body.releaseid, {tracks: {title: req.body.title, contributors: contributorsArray}}, function(err, raw) {
+	Post.findByIdAndUpdate(req.body.releaseid,
+		{
+			$push: {
+				tracks: {
+					title: req.body.title,
+					audio: req.file.filename,
+					contributors: contributorsArray
+				}
+			}
+		}, function(err, raw) {
 		if(err) res.send(err);
 	});
 	res.redirect('/post/'+req.body.releaseid);

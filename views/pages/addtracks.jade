@@ -1,10 +1,11 @@
-include ../layout/head
+include ../layout/layout
 html 
   body
     block content
-      form(method='post', action='/addtracks_submit/')
+      form(method='post', action='/addtracks_submit/' enctype="multipart/form-data")
         input(name='releaseid' value="#{releaseid}" style="display:none;")
         input(type='text', name='title' placeholder='title')
+        input(type='file' name='audio')
         
         div.contributors
           a.btn.btn-secondary.btn-sm(id="addContributorButton" onclick="addContributor()") Add contributor

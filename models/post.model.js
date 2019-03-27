@@ -21,6 +21,10 @@ var PostSchema = new Schema({
 	}],
 	tracks: [{
 		title: String,
+		audio: {
+			type: String,
+			default: ""
+		},
 		contributors: [{
 				id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 				role: String

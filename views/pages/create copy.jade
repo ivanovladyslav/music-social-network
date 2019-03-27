@@ -1,0 +1,36 @@
+include ../layout/head
+html 
+	body
+		block content
+			h1 Add project
+			form(method='post', action='/create_submit/' enctype="multipart/form-data")
+				input(type='text', name='title' placeholder='title')
+				input(type='text', name='tags' placeholder='tags')
+				input(type='file' name='cover')
+				
+				div.contributors
+					a.btn.btn-secondary.btn-sm(id="addContributorButton" onclick="addContributor()") Add contributor
+					
+				div.tracks
+					span.track.0
+						input(type='text', name='track-title' placeholder='title')
+						input(type='text' name='track-contributors' placeholder='contributor name')
+						select(name='track-roles', placeholder='contributor role')
+							option(value="1") 1
+							option(value="1") 2
+						input(type='text' name='track-contributors' placeholder='contributor name')
+						select(name='track-roles', placeholder='contributor role')
+							option(value="1") 1
+							option(value="1") 2
+						
+					span.track.1
+						input(type='text', name='track-title' placeholder='title')
+						input(type='text' name='track-contributors' placeholder='contributor name')
+						select(name='track-roles', placeholder='contributor role')
+							option(value="1") 1
+							option(value="1") 2
+							
+					a(onclick="makeJson()") MAKE JSON
+						
+				input(type='submit', value='yes')
+	script(src="post-create.js")
