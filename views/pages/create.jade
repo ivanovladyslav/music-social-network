@@ -1,16 +1,15 @@
-include ../layout/head
-html 
-	body
-		block content
-			h1 Add project
-			form(method='post', action='/create_submit/' enctype="multipart/form-data")
-				input(type='text', name='title' placeholder='title')
-				input(type='text', name='tags' placeholder='tags')
-				input(type='file' name='cover')
-				
-				div.contributors
-					a.btn.btn-secondary.btn-sm(id="addContributorButton" onclick="addContributor()") Add contributor
-					
-						
-				input(type='submit', value='yes')
+include ../layout/layout
+div.container.with-top-padding
+	h1 Add project
+	form.form-add-project(method='post', action='/create_submit/' enctype="multipart/form-data")
+		div.form-add-project-info
+			input.form-control(type='text', name='title' placeholder='title')
+			input.form-control(type='text', name='tags' placeholder='tags')
+			input(type='file' name='cover')
+			label(for='cover') Upload release cover
+			input.btn.btn-primary(type='submit', value='Add Project')
+		
+		div.contributors.dropdown
+			a.btn.btn-secondary.btn-sm(id="addContributorButton" onclick="addContributor()") Add contributor
+			
 	script(src="post-create.js")

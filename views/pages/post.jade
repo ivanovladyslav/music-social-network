@@ -1,7 +1,7 @@
 include ../layout/layout.jade
     
-div.container
-  div.image
+div.container.container-release.with-top-padding
+  div.cover
     img(src="../../upload/#{post.cover}" width="200px" height="200px")
   div.content
     a.header= post.title
@@ -13,7 +13,7 @@ div.container
           p= contributor.role
     div.extra
       each tag in post.tags
-        div.ui.label= tag
+        div.tag= tag
     div.tracks 
       each track in post.tracks 
         div.tracks-item

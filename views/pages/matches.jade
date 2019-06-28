@@ -3,7 +3,9 @@ include ../layout/layout.jade
 div.container
   ul
     each user in results
-      li
-        p= user.username
-        p= user.description
-        img(src="../../upload/#{user.avatar}" width="100px" height="100px")
+      div.col-sm-2.project
+        div.panel.panel-default
+          div.panel-body.image 
+            img(src="../../upload/#{user.avatar}" )
+          div.panel-footer
+            a(href="/user/profile/#{user.username}")= user.username

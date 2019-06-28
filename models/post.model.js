@@ -15,7 +15,8 @@ var PostSchema = new Schema({
 		required: false
 	}],
 	contributors: [{
-			id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+			id: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false},
+			name: {type: String, required: false} ,
 			role: String,
 			required: false
 	}],
@@ -26,7 +27,8 @@ var PostSchema = new Schema({
 			default: ""
 		},
 		contributors: [{
-				id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+				id: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false},
+				name: {type: String, required: false},
 				role: String
 		}],
 		required: false

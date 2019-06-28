@@ -2,15 +2,14 @@ include ./head.jade
 	body
 		block content
 			div.ui.container
-				nav.navbar.navbar-expand-lg.bg-warning
-					div.toggle-button.nav-item				
+				nav.navbar.navbar-expand-lg.navbar-dark.bg-warning
+					div.navbar-toggler.navbar-toggler-left
+						span.navbar-toggler-icon
 					ul.navbar-nav.mr-auto
 						- if (username) {
-						li.nav-item
-							a.nav-link.text-white(href='/user/notifications') Notifications
 						- } else {
 						li.nav-item
-							a.nav-link.text-white(href='/user/login') Login
+							a.nav-link.text-white(href='/user/login' style="margin-left: 20px") Login
 						li.nav-item
 							a.nav-link.text-white(href='/user/signup') Signup
 						- }
@@ -23,9 +22,13 @@ include ./head.jade
 						li
 							a.text-white(href="/") Home
 						-if (username) {
+						li
 							a.item.text-white(href="/user/profile/#{username}") My profile
+						li
 							a.item.text-white(href='/create') Add project
+						li
 							a.item.text-white(href='/user/profile_edit') Edit profile
+						li.menu-logout
 							a.text-white(href='/user/logout') Logout
 						-}
 			div.close-mask

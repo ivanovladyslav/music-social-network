@@ -23,7 +23,7 @@ app.use('/', post);
 app.use('/user', user);
 
 let mongoDB = process.env.MONGODB_URI || db_url;
-mongoose.connect(mongoDB, {autoIndex: false});
+mongoose.connect(mongoDB, {autoIndex: false, useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', (err) => {

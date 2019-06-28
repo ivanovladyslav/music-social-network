@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var $toggleButton = $('.toggle-button'),
+    var $toggleButton = $('.navbar-toggler'),
         $menuWrap = $('.menu-wrap'),
         $closeMask = $('.close-mask');
     $toggleButton.on('click', function() {

@@ -29,7 +29,7 @@ exports.signup_submit = function(req, res) {
 		if (err) {
 				console.log(err)
 			} else {
-				res.redirect('login');
+				res.redirect('../login');
 			}
 		});
 }
@@ -62,8 +62,8 @@ exports.logout = function(req, res) {
 
 exports.profile = async function(req, res) {
 	let isUserInFriends = false;
-	let userId = await User.findOne({ username:req.params.id });
-	let postData = Post.find({ authorid: userId._id });
+	let user = await User.findOne({ username:req.params.id });
+	let postData = Post.find({ $or: [{authorid: user._id}, {contributors: { $elemMatch: { id: user._id}}}]});
 	let userData = User.findOne({ username: req.params.id });
 
 	userData.select('username avatar description id friends');

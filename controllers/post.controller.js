@@ -1,7 +1,5 @@
 const Post = require('../models/post.model');
 const User = require('../models/user.model');
-var async = require("async");
-const path = require('path');
 const fs = require('fs');
 
 exports.create_submit = async function(req, res) {
@@ -21,10 +19,17 @@ exports.create_submit = async function(req, res) {
 			var idOfContributor;
 			idOfContributor = await User.findOne({username:contributorsFromRequest[i]});
 			console.log(idOfContributor);
-			contributorsArray.push({
-				id: idOfContributor._id,
-				role: rolesFromRequest[i]
-			});
+			if(idOfContributor) {
+				contributorsArray.push({
+					id: idOfContributor._id,
+					role: rolesFromRequest[i]
+				});
+			} else {
+				contributorsArray.push({
+					name: contributorsFromRequest[i],
+					role: rolesFromRequest[i]
+				});
+			}
 		}
 	}
 	console.log(contributorsArray);
@@ -51,20 +56,34 @@ exports.post = async function(req, res) {
 	contributorsNames = [];
 	for (var i = 0; i < data.contributors.length; i++) {
 		let user = await User.findOne({ _id: data.contributors[i].id});
-		data.contributors[i] = {
-			_id: data.contributors[i]._id,
-			id: user.username,
-			role: data.contributors[i].role
+		if(user) {
+			data.contributors[i] = {
+				_id: data.contributors[i]._id,
+				id: user.username,
+				role: data.contributors[i].role
+			}
+		} else {
+			data.contributors[i] = {
+				id: data.contributors[i].name,
+				role: data.contributors[i].role
+			}
 		}
 	}
 	for (var i = 0; i < data.tracks.length; i++) {
 		if (data.tracks[i].contributors) {
 			for (var j = 0; j < data.tracks[i].contributors.length; j++) {
 				let user = await User.findOne({ _id: data.tracks[i].contributors[j].id});
-				data.tracks[i].contributors[j] = {
-					_id: data.tracks[i].contributors[j]._id,
-					id: user.username,
-					role: data.tracks[i].contributors[j].role
+				if(user) {
+					data.tracks[i].contributors[j] = {
+						_id: data.tracks[i].contributors[j]._id,
+						id: user.username,
+						role: data.tracks[i].contributors[j].role
+					}
+				} else {
+					data.tracks[i].contributors[j] = {
+						id: data.tracks[i].contributors[j].name,
+						role: data.tracks[i].contributors[j].role
+					}
 				}
 			}
 		}
@@ -100,16 +119,24 @@ exports.addtracks_submit = async function(req, res) {
 	if(req.body.contributors) {
 		for (var i = 0; i < contributorsFromRequest.length; i++) {
 			var idOfContributor = await User.findOne({username:contributorsFromRequest[i]});
-			contributorsArray.push({
-				id: idOfContributor._id,
-				role: rolesFromRequest[i]
-			});
+			if(idOfContributor) {
+				contributorsArray.push({
+					id: idOfContributor._id,
+					role: rolesFromRequest[i]
+				});
+			} else {
+				contributorsArray.push({
+					name: contributorsFromRequest[i],
+					role: rolesFromRequest[i]
+				});
+			}
 		}
 	}
 
 	Post.findByIdAndUpdate(req.body.releaseid,
 		{
-			$push: {
+			$addToSet: {
+				contributors: contributorsArray,
 				tracks: {
 					title: req.body.title,
 					audio: req.file.filename,
@@ -119,6 +146,8 @@ exports.addtracks_submit = async function(req, res) {
 		}, function(err, raw) {
 		if(err) res.send(err);
 	});
+
+
 	res.redirect('/post/'+req.body.releaseid);
 }
 

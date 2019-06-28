@@ -1,18 +1,21 @@
 include ../layout/head.jade 
 		block content
-		
-		div.outer
-			div.middle
-				div.form-signup
-					h1 Signup
-					form(method='post', action='/user/signup_submit')
-						label(for='email') Email:
-						input(type='email', name='email')
-						label(for='username') Usertag: 
-						input(type='text', name='username')
-						label(for='password') Password:
-						input(type='password', name='password')
-						label(for='passwordConf') Confirm password:
-						input(type='password', name='passwordConf')
-						input(type='submit', value='yes')
+		div.container-form
+			h2 Login Form
+			form(method='post', action='/user/signup_submit/')
+				div.row
+					div.col-md-12.form-group
+						input.form-control(name="username" type="text" placeholder="Nickname")
+				div.row
+					div.col-md-12.form-group
+						input.form-control(name="email" type="text" placeholder="Email")
+				div.row
+					div.col-md-12.form-group
+						input.form-control(name="password" type="password" placeholder="Enter your Password")
+				div.row
+					div.col-md-12.form-group
+						input.form-control(name="passwordConf" type="password" placeholder="Confirm your password")
+				div.row
+					div.col-md-12.form-group
+						input.btn.btn-primary(type="submit")
 				

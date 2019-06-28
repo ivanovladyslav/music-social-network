@@ -1,13 +1,13 @@
 include ../layout/layout.jade
 
-div.container
-	div.profile-head
-		div.profile-description
-			p #{user.description}
-		div.profile-middle
-			img(src="../../upload/#{user.avatar}" width="100px" height="100px")
-			p #{user.username}
-		div.profile-contacts
+div.container.with-top-padding
+	div.row
+		div.col-sm
+			p.profile-description #{user.description}
+		div.col-sm
+			img.profile-image(src="../../upload/#{user.avatar}" width="100px" height="100px")
+			p.profile-username #{user.username}
+		div.col-sm
 			p contacts
 			-if(username && username != user.username && !isUserInFriends) {
 			a(href='/user/invitetofriend/#{user.username}') Send friend request	
@@ -15,18 +15,17 @@ div.container
 	div.profile-wall
 		ul
 			-var data = JSON.parse(JSON.stringify(posts))
-			div.ui.divided.items
+			div.row
 				each post in data
-					div.item
-						div.image
-							img(src="../../upload/#{post.cover}")
-						div.content
-							a(href='/post/#{post._id}') Title
-							div.description
-								a(href='/user/profile/#{post.authorname}')= post.authorname
-							div.extra
-								each tag in post.tags
-									div.ui.label= tag
-							-if(username) {
+					div.col-sm-2.project
+						div.panel.panel-default
+							div.panel-body.image 
+								img(src="../../upload/#{post.cover}" )
+							div.panel-footer
+								a(href='/post/#{post._id}').header= post.title
+								div
+									a(href='/user/profile/#{post.authorname}')= post.authorname
+								div.ui.label= tag
+							-if(username==user.username) {
 							a(href='/delete/#{post._id}') Delete
 							-}

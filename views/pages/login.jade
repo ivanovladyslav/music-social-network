@@ -1,15 +1,21 @@
 include ../layout/head.jade
 	body
 		block content
-		div.outer
-			div.middle
-				div.form-login
-					h1 Login
-					form(method='post', action='/user/login_submit/')
-						label(for='email') Your email:
-						input(type='email', name='email')
-						label(for='password') Password:
-						input(type='password', name='password')
-						input(type='submit', value='Login')
-					a(href="/user/signup/") Sign up
+			div.container-form
+				h2 Login Form
+				form(method='post', action='/user/login_submit/')
+					div.row
+						div.col-md-12.form-group
+							input.form-control(name="email" type="text" placeholder="Username")
+					div.row
+						div.col-md-12.form-group
+							input.form-control(name="password" type="password" placeholder="Enter your Password")
+					div.row
+						div.col-md-12.form-group
+							input.btn.btn-primary(type="submit" class="btn btn-block btn-login" placeholder="Enter your Password")
+					div.row
+						div.col-md-12
+							a(href="/user/signup") Register
+        
+	
 			

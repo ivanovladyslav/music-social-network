@@ -27,10 +27,7 @@ var UserSchema = new mongoose.Schema({
 		type: String,
 		required: false,
 		default: ""
-	},
-	friends: [{
-		type: String
-	}]
+	}
 });
 
 UserSchema.pre('save', function(next) {
